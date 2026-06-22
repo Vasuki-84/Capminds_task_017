@@ -1,3 +1,5 @@
+import axios from "axios";
+
 import {
   call,
   put,
@@ -19,30 +21,43 @@ import {
   SET_ERROR,
 } from "./actions";
 
-const fetchPatientsAPI = () =>
-  fetch(
+// ======================
+// API FUNCTIONS
+// ======================
+
+const fetchPatientsAPI = async () => {
+  const response = await axios.get(
     "https://jsonplaceholder.typicode.com/users"
-  ).then((res) => res.json());
-
-const fetchPatientDetailsAPI = (
-  id
-) =>
-  fetch(
-    `https://jsonplaceholder.typicode.com/users/${id}`
-  ).then((res) => res.json());
-
-const postPatientAPI = (data) =>
-  fetch(
-    "https://jsonplaceholder.typicode.com/posts",
-    {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type":
-          "application/json",
-      },
-    }
   );
+
+  return response.data;
+};
+
+const fetchPatientDetailsAPI = async (
+  id
+) => {
+  const response = await axios.get(
+    `https://jsonplaceholder.typicode.com/users/${id}`
+  );
+
+  return response.data;
+};
+
+const postPatientAPI = async (
+  data
+) => {
+  const response =
+    await axios.post(
+      "https://jsonplaceholder.typicode.com/posts",
+      data
+    );
+
+  return response.data;
+};
+
+// ======================
+// FETCH PATIENTS SAGA
+// ======================
 
 function* fetchPatientsSaga() {
   try {
@@ -70,8 +85,17 @@ function* fetchPatientsSaga() {
       payload:
         "Failed to fetch patients",
     });
+
+    yield put({
+      type: SET_LOADING,
+      payload: false,
+    });
   }
 }
+
+// ======================
+// FETCH PATIENT DETAILS
+// ======================
 
 function* fetchPatientDetailsSaga(
   action
@@ -87,36 +111,71 @@ function* fetchPatientDetailsSaga(
       payload: data,
     });
   } catch (error) {
-    console.log(error);
-  }
-}
-
-function* submitPatientSaga(action) {
-  try {
-    if (!navigator.onLine) {
-      yield put({
-        type: QUEUE_PATIENT_FORM,
-        payload: action.payload,
-      });
-
-      return;
-    }
-
-    yield call(
-      postPatientAPI,
-      action.payload
-    );
-  } catch (error) {
     yield put({
-      type: QUEUE_PATIENT_FORM,
-      payload: action.payload,
+      type: SET_ERROR,
+      payload:
+        "Failed to fetch patient details",
     });
   }
 }
 
+// ======================
+// SUBMIT PATIENT FORM
+// ======================
+
+function* submitPatientSaga(
+  action
+) {
+  console.log(
+    "Form Submitted"
+  );
+
+  try {
+    if (!navigator.onLine) {
+      yield put({
+        type: QUEUE_PATIENT_FORM,
+        payload:
+          action.payload,
+      });
+
+      console.log(
+        "Offline - Added to Queue"
+      );
+
+      return;
+    }
+
+    const response =
+      yield call(
+        postPatientAPI,
+        action.payload
+      );
+
+    console.log(
+      "Patient Saved",
+      response
+    );
+  } catch (error) {
+    yield put({
+      type: QUEUE_PATIENT_FORM,
+      payload:
+        action.payload,
+    });
+
+    console.log(
+      "API Failed - Added to Queue"
+    );
+  }
+}
+
+// ======================
+// PROCESS OFFLINE QUEUE
+// ======================
+
 function* processQueueSaga() {
   const queue = yield select(
-    (state) => state.offlineQueue
+    (state) =>
+      state.offlineQueue
   );
 
   for (
@@ -134,11 +193,23 @@ function* processQueueSaga() {
         type: REMOVE_FROM_QUEUE,
         payload: i,
       });
-    } catch {
+
+      console.log(
+        "Queued Patient Submitted"
+      );
+    } catch (error) {
+      console.log(
+        "Queue Processing Failed"
+      );
+
       break;
     }
   }
 }
+
+// ======================
+// ROOT SAGA
+// ======================
 
 export default function* rootSaga() {
   yield takeEvery(

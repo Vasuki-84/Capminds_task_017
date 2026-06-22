@@ -48,7 +48,9 @@ function PatientForm() {
         <form onSubmit={handleSubmit}>
           <div className="row g-3">
             <div className="col-12 col-md-6">
-              <label className="form-label small text-muted">Patient Name</label>
+              <label className="form-label small text-muted">
+                Patient Name
+              </label>
               <div className="input-group">
                 <span className="input-group-text bg-light">
                   <i className="bi bi-person"></i>
@@ -57,9 +59,7 @@ function PatientForm() {
                   type="text"
                   placeholder="John Doe"
                   value={form.name}
-                  onChange={(e) =>
-                    setForm({ ...form, name: e.target.value })
-                  }
+                  onChange={(e) => setForm({ ...form, name: e.target.value })}
                   className="form-control"
                   required
                 />
@@ -76,9 +76,7 @@ function PatientForm() {
                   type="number"
                   placeholder="Age"
                   value={form.age}
-                  onChange={(e) =>
-                    setForm({ ...form, age: e.target.value })
-                  }
+                  onChange={(e) => setForm({ ...form, age: e.target.value })}
                   className="form-control"
                   required
                 />
@@ -105,7 +103,9 @@ function PatientForm() {
             </div>
 
             <div className="col-12 col-md-6">
-              <label className="form-label small text-muted">Doctor Assigned</label>
+              <label className="form-label small text-muted">
+                Doctor Assigned
+              </label>
               <div className="input-group">
                 <span className="input-group-text bg-light">
                   <i className="bi bi-person-badge"></i>
@@ -114,9 +114,7 @@ function PatientForm() {
                   type="text"
                   placeholder="Doctor"
                   value={form.doctor}
-                  onChange={(e) =>
-                    setForm({ ...form, doctor: e.target.value })
-                  }
+                  onChange={(e) => setForm({ ...form, doctor: e.target.value })}
                   className="form-control"
                   required
                 />
