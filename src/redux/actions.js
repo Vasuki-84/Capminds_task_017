@@ -1,0 +1,27 @@
+export const FETCH_PATIENTS = "FETCH_PATIENTS";
+export const SET_PATIENTS = "SET_PATIENTS";
+
+export const NEXT_PAGE = "NEXT_PAGE";
+export const PREV_PAGE = "PREV_PAGE";
+
+export const SUBMIT_PATIENT_FORM =
+  "SUBMIT_PATIENT_FORM";
+
+export const QUEUE_PATIENT_FORM =
+  "QUEUE_PATIENT_FORM";
+
+export const REMOVE_FROM_QUEUE =
+  "REMOVE_FROM_QUEUE";
+
+export const NETWORK_ONLINE =
+  "NETWORK_ONLINE";
+
+export const FETCH_PATIENT_DETAILS =
+  "FETCH_PATIENT_DETAILS";
+
+export const SET_PATIENT_DETAILS =
+  "SET_PATIENT_DETAILS";
+
+export const SET_LOADING = "SET_LOADING";
+
+export const SET_ERROR = "SET_ERROR";
