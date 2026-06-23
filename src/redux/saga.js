@@ -48,7 +48,7 @@ const postPatientAPI = async (data) => {
 // FETCH PATIENTS SAGA
 // ======================
 
-// worker saga - generator function 
+// worker saga - generator function
 function* fetchPatientsSaga() {
   try {
     yield put({

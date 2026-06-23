@@ -7,6 +7,7 @@ import {
   REMOVE_FROM_QUEUE,
   SET_LOADING,
   SET_ERROR,
+  NETWORK_ONLINE,
 } from "./actions";
 
 const initialState = {
@@ -73,6 +74,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         error: action.payload,
+      };
+
+    case NETWORK_ONLINE:
+      return {
+        ...state,
+        isOnline: action.payload,
       };
 
     default:
