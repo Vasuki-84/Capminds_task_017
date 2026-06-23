@@ -1,8 +1,26 @@
 import PatientList from "./components/PatientList";
 import PatientDetails from "./components/PatientDetails";
 import PatientForm from "./components/PatientForm";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { NETWORK_ONLINE } from "./redux/actions";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const handleOnline = () => dispatch({ type: NETWORK_ONLINE, payload: true });
+    const handleOffline = () => dispatch({ type: NETWORK_ONLINE, payload: false });
+
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
+  }, [dispatch]);
+
   return (
     <div className="bg-light min-vh-100">
       {/* Top bar */}

@@ -7,10 +7,8 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import App from "./App";
 import store from "./redux/store";
 
-ReactDOM.createRoot(
-  document.getElementById("root")
-).render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
     <App />
-  </Provider>
+  </Provider>,
 );

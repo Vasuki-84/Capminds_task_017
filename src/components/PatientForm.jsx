@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { SUBMIT_PATIENT_FORM } from "../redux/actions";
 
 function PatientForm() {
   const dispatch = useDispatch();
+  const isOnline = useSelector((state) => state.isOnline);
+  const queue = useSelector((state) => state.offlineQueue);
 
   const [form, setForm] = useState({
     name: "",
@@ -44,7 +46,18 @@ function PatientForm() {
           </div>
           <h2 className="card-title mb-0 fw-semibold fs-5">Register Patient</h2>
         </div>
+        <div className="mb-3">
+          <div
+            className={`alert ${isOnline ? "alert-success" : "alert-danger"} mb-2`}
+          >
+            <strong>Status:</strong> {isOnline ? "🟢 Online" : "🔴 Offline"}
+          </div>
 
+          <div className="alert alert-warning mb-0">
+            <strong>Queue Count:</strong> {queue.length}
+          </div>
+        </div>
+        
         <form onSubmit={handleSubmit}>
           <div className="row g-3">
             <div className="col-12 col-md-6">

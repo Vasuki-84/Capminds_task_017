@@ -23,10 +23,7 @@ const initialState = {
   isOnline: navigator.onLine,
 };
 
-const reducer = (
-  state = initialState,
-  action
-) => {
+const reducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_PATIENTS:
       return {
@@ -37,17 +34,13 @@ const reducer = (
     case NEXT_PAGE:
       return {
         ...state,
-        currentPage:
-          state.currentPage + 1,
+        currentPage: state.currentPage + 1,
       };
 
     case PREV_PAGE:
       return {
         ...state,
-        currentPage:
-          state.currentPage > 1
-            ? state.currentPage - 1
-            : 1,
+        currentPage: state.currentPage > 1 ? state.currentPage - 1 : 1,
       };
 
     case SET_PATIENT_DETAILS:
@@ -59,20 +52,15 @@ const reducer = (
     case QUEUE_PATIENT_FORM:
       return {
         ...state,
-        offlineQueue: [
-          ...state.offlineQueue,
-          action.payload,
-        ],
+        offlineQueue: [...state.offlineQueue, action.payload],
       };
 
     case REMOVE_FROM_QUEUE:
       return {
         ...state,
-        offlineQueue:
-          state.offlineQueue.filter(
-            (_, index) =>
-              index !== action.payload
-          ),
+        offlineQueue: state.offlineQueue.filter(
+          (_, index) => index !== action.payload,
+        ),
       };
 
     case SET_LOADING:
