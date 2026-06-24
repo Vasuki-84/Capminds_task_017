@@ -68,6 +68,7 @@ function* fetchPatientsSaga() {
       payload: false,
     });
   } catch (error) {
+      console.log(error);
     yield put({
       type: SET_ERROR,
       payload: "Failed to fetch patients",
@@ -93,6 +94,7 @@ function* fetchPatientDetailsSaga(action) {
       payload: data,
     });
   } catch (error) {
+      console.log(error);
     yield put({
       type: SET_ERROR,
       payload: "Failed to fetch patient details",
@@ -113,16 +115,13 @@ function* submitPatientSaga(action) {
         type: QUEUE_PATIENT_FORM,
         payload: action.payload,
       });
-
       console.log("Offline - Added to Queue");
-
       return;
     }
-
     const response = yield call(postPatientAPI, action.payload);
-
     console.log("Patient Saved", response);
   } catch (error) {
+      console.log(error);
     yield put({
       type: QUEUE_PATIENT_FORM,
       payload: action.payload,
@@ -150,6 +149,7 @@ function* processQueueSaga() {
 
       console.log("Queued Patient Submitted");
     } catch (error) {
+        console.log(error);
       console.log("Queue Processing Failed");
 
       break;

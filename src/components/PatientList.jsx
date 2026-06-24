@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import  { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -13,10 +13,11 @@ function PatientList() {
 
   const patients = useSelector((state) => state.patients);
   const page = useSelector((state) => state.currentPage);
-
+  
+ // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     dispatch({ type: FETCH_PATIENTS });
-  }, [dispatch]);
+  }, []);
 
   const start = (page - 1) * 5;
   const visiblePatients = patients.slice(start, start + 5);
